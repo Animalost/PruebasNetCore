@@ -1,0 +1,547 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+    ViewData["script"] = "JSCalendarMine.js";
+    Layout = "_Layout";
+    @Html.AntiForgeryToken();
+}
+
+<style>
+    .NormalDay {
+        width: 40px;
+        cursor: pointer;
+    }
+
+    .HoliDay {
+        width: 40px;
+        color: red;
+        cursor: pointer;
+    }
+</style>
+
+<div class="container-sm" style="width:500px;">
+    <div class="row">
+        <div class="col-1">
+            <input type="submit" id="btnPrevMonth" class="btn btn-warning btn-sm" value="<<" />
+        </div>
+        <div class="col-9">
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-3">
+                    <select class="media border-0 font-weight-bold" id="thisMonth" name="thisMonth" style="color:blue;">
+                        <option selected value="@Model.MesText">@Model.MesText</option>
+                        <option value="Enero">Enero</option>
+                        <option value="Febrero">Febrero</option>
+                        <option value="Marzo">Marzo</option>
+                        <option value="Abril">Abril</option>
+                        <option value="Mayo">Mayo</option>
+                        <option value="Junio">Junio</option>
+                        <option value="Julio">Julio</option>
+                        <option value="Agosto">Agosto</option>
+                        <option value="Septiembre">Septiembre</option>
+                        <option value="Octubre">Octubre</option>
+                        <option value="Noviembre">Noviembre</option>
+                        <option value="Diciembre">Diciembre</option>
+                    </select>
+                </div>
+                <div class="col-4"></div>
+                <div class="col-3">
+                    <select class="media border-0 font-weight-bold" id="thisYear" name="thisYear" style="color:blue;">
+                        <option selected value="@Model.AñoText">@Model.AñoText</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                        <option value="2028">2028</option>
+                        <option value="2029">2029</option>
+                        <option value="2030">2030</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-1">
+            <input type="submit" id="btnNextMonth" class="btn btn-warning btn-sm" value=">>" />
+        </div>
+    </div><br />
+    <table data-page-length="10" class="table table-hover display compact" id="tableCalendar">
+        <thead>
+            <tr>
+                <th>Lun</th>
+                <th>Mar</th>
+                <th>Mie</th>
+                <th>Jue</th>
+                <th>Vie</th>
+                <th>Sab</th>
+                <th style="color:red;">Dom</th>
+            </tr>
+        </thead>
+        <tbody id="tableCalendarTR">
+            <tr>
+                <!-- SEMANA 1 -->
+                <td>
+                    @{
+                        if (Model.F1 == "")
+                        {
+                            <input type="text" readonly value="@Model.D1" id="D1" name="D1" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D1" id="D1" name="D1" class="border-0 small HoliDay" />
+                        }
+                    }
+
+                </td>
+                <td>
+                    @{
+                        if (Model.F2 == "")
+                        {
+                            <input type="text" readonly value="@Model.D2" id="D2" name="D2" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D2" id="D2" name="D2" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F3 == "")
+                        {
+                            <input type="text" readonly value="@Model.D3" id="D3" name="D3" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D3" id="D3" name="D3" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F4 == "")
+                        {
+                            <input type="text" readonly value="@Model.D4" id="D4" name="D4" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D4" id="D4" name="D4" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F5 == "")
+                        {
+                            <input type="text" readonly value="@Model.D5" id="D5" name="D5" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D5" id="D5" name="D5" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F6 == "")
+                        {
+                            <input type="text" readonly value="@Model.D6" id="D6" name="D6" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D6" id="D6" name="D6" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td><input type="text" readonly value="@Model.D7" id="D7" name="D7" class="border-0 small HoliDay" /></td>
+            </tr>
+            <tr>
+                <!-- SEMANA 2 -->
+                <td>
+                    @{
+                        if (Model.F8 == "")
+                        {
+                            <input type="text" readonly value="@Model.D8" id="D8" name="D8" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D8" id="D8" name="D8" class="border-0 small HoliDay" />
+                        }
+                    }                    
+                </td>
+                <td>
+                    @{
+                        if (Model.F9 == "")
+                        {
+                            <input type="text" readonly value="@Model.D9" id="D9" name="D9" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D9" id="D9" name="D9" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F10 == "")
+                        {
+                            <input type="text" readonly value="@Model.D10" id="D10" name="D10" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D10" id="D10" name="D10" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F11 == "")
+                        {
+                            <input type="text" readonly value="@Model.D11" id="D11" name="D11" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D11" id="D11" name="D11" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F12 == "")
+                        {
+                            <input type="text" readonly value="@Model.D12" id="D12" name="D12" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D12" id="D12" name="D12" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F13 == "")
+                        {
+                            <input type="text" readonly value="@Model.D13" id="D13" name="D13" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D13" id="D13" name="D13" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td><input type="text" readonly value="@Model.D14" id="D14" name="D14" class="border-0 small HoliDay" /></td>
+            </tr>
+            <tr>
+                <!-- SEMANA 3 -->
+                <td>
+                    @{
+                        if (Model.F15 == "")
+                        {
+                            <input type="text" readonly value="@Model.D15" id="D15" name="D15" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D15" id="D15" name="D15" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F16 == "")
+                        {
+                            <input type="text" readonly value="@Model.D16" id="D16" name="D19" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D16" id="D16" name="D19" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F17 == "")
+                        {
+                            <input type="text" readonly value="@Model.D17" id="D17" name="D17" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D17" id="D17" name="D17" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F18 == "")
+                        {
+                            <input type="text" readonly value="@Model.D18" id="D18" name="D18" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D18" id="D18" name="D18" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F19 == "")
+                        {
+                            <input type="text" readonly value="@Model.D19" id="D19" name="D19" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D19" id="D19" name="D19" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F20 == "")
+                        {
+                            <input type="text" readonly value="@Model.D20" id="D20" name="D20" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D20" id="D20" name="D20" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td><input type="text" readonly value="@Model.D21" id="D21" name="D21" class="border-0 small HoliDay" /></td>
+            </tr>
+            <tr>
+                <!-- SEMANA 4 -->
+                <td>
+                    @{
+                        if (Model.F22 == "")
+                        {
+                            <input type="text" readonly value="@Model.D22" id="D22" name="D22" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D22" id="D22" name="D22" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F23 == "")
+                        {
+                            <input type="text" readonly value="@Model.D23" id="D23" name="D23" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D23" id="D23" name="D23" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F24 == "")
+                        {
+                            <input type="text" readonly value="@Model.D24" id="D24" name="D24" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D24" id="D24" name="D24" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F25 == "")
+                        {
+                            <input type="text" readonly value="@Model.D25" id="D25" name="D25" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D25" id="D25" name="D25" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F26 == "")
+                        {
+                            <input type="text" readonly value="@Model.D26" id="D26" name="D26" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D26" id="D26" name="D26" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F27 == "")
+                        {
+                            <input type="text" readonly value="@Model.D27" id="D27" name="D27" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D27" id="D27" name="D27" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td><input type="text" readonly value="@Model.D28" id="D28" name="D28" class="border-0 small HoliDay" /></td>
+            </tr>
+            <tr>
+                <!-- SEMANA 5 -->
+                <td>
+                    @{
+                        if (Model.F29 == "")
+                        {
+                            <input type="text" readonly value="@Model.D29" id="D29" name="D29" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D29" id="D29" name="D29" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F30 == "")
+                        {
+                            <input type="text" readonly value="@Model.D30" id="D30" name="D30" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D30" id="D30" name="D30" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F31 == "")
+                        {
+                            <input type="text" readonly value="@Model.D31" id="D31" name="D31" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D31" id="D31" name="D31" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F32 == "")
+                        {
+                            <input type="text" readonly value="@Model.D32" id="D32" name="D32" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D32" id="D32" name="D32" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F33 == "")
+                        {
+                            <input type="text" readonly value="@Model.D33" id="D33" name="D33" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D33" id="D33" name="D33" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F34 == "")
+                        {
+                            <input type="text" readonly value="@Model.D34" id="D34" name="D34" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D34" id="D34" name="D34" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td><input type="text" readonly value="@Model.D35" id="D35" name="D35" class="border-0 small HoliDay" /></td>
+            </tr>
+            <tr>
+                <!-- SEMANA 6 -->
+                <td>
+                    @{
+                        if (Model.F36 == "")
+                        {
+                            <input type="text" readonly value="@Model.D36" id="D36" name="D36" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D36" id="D36" name="D36" class="border-0 small HoliDay" />
+                        }
+                    }                    
+                </td>
+                <td>
+                    @{
+                        if (Model.F37 == "")
+                        {
+                            <input type="text" readonly value="@Model.D37" id="D37" name="D37" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D37" id="D37" name="D37" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F38 == "")
+                        {
+                            <input type="text" readonly value="@Model.D38" id="D38" name="D38" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D38" id="D38" name="D38" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F39 == "")
+                        {
+                            <input type="text" readonly value="@Model.D39" id="D39" name="D39" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D39" id="D39" name="D39" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F40 == "")
+                        {
+                            <input type="text" readonly value="@Model.D40" id="D40" name="D40" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D40" id="D40" name="D40" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (Model.F41 == "")
+                        {
+                            <input type="text" readonly value="@Model.D41" id="D41" name="D41" class="border-0 small NormalDay" />
+                        }
+                        else
+                        {
+                            <input type="text" readonly value="@Model.D41" id="D41" name="D41" class="border-0 small HoliDay" />
+                        }
+                    }
+                </td>
+                <td><input type="text" readonly value="@Model.D42" id="D42" name="D42" class="border-0 small HoliDay" /></td>
+            </tr>
+        </tbody>
+    </table>
+    <label for="FSelFront">Fecha Seleccionada</label>
+    <input type="date" value="@Model.FSelected2" class="form-control" disabled id="FSelFront" name="FSelFront"/>
+</div>
